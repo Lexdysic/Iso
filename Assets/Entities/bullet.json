@@ -1,0 +1,29 @@
+﻿{
+    "Name" : "Bullet",
+    "Components" :
+    {
+        "Transform" :
+        {
+            "position" : [0, 0],
+        },
+
+        "Rigidbody" :
+        {
+            "mass" : 10
+        },
+
+        "Collider" :
+        {
+            "type" : "circle,
+            "position" : [0, 0],
+            "radius" : 4,
+        },
+
+        "Graphics" :
+        {
+            "type" : "circle",
+            "position" : [0, 0],
+            "radius" : 4,
+        }
+    }
+}

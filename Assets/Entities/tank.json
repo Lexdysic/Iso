@@ -1,0 +1,43 @@
+{
+    "Name" : "TankBody",
+    "Components" :
+    {
+        "Transform" :
+        {
+            "position" : [100, 400],
+        },
+
+        "TankControl" :
+        {
+        }
+
+        "Graphics" :
+        {
+            "type" : "rectangle",
+            "position" : [0, 0],
+            "size" : [40, 20],
+        }
+    }
+}
+
+{
+    "Name" : "TankGun",
+    "Components" :
+    {
+        "Transform" :
+        {
+            "position" : [0, -5],
+        },
+
+        "GunControl" :
+        {
+        },
+
+        "Graphics" :
+        {
+            "type" : "rectangle",
+            "position" : [20, 0],
+            "size" : [40, 10],
+        },
+    }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:simpleType name="ComponentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Transform"/>
+      <xs:enumeration value="Graphics"/>
+      <xs:enumeration value="RigidBody"/>
+      <xs:enumeration value="Collider"/>
+      <xs:enumeration value="TankControl"/>
+      <xs:enumeration value="GunControl"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="GraphicsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Circle"/>
+      <xs:enumeration value="Rectangle"/>
+      <xs:enumeration value="Image"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="ColliderType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Circle"/>
+      <xs:enumeration value="Rectangle"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="PositionType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]+,[0-9]+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="Component">
+    <xs:complexType>
+      <xs:attribute name="type" type="ComponentType" use="required"/>
+    </xs:complexType>
+  </xs:element>
+    
+  <xs:element name="Entity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Component"  maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
