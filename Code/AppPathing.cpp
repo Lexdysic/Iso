@@ -198,7 +198,7 @@ void CAppPathing::Render ()
             box.min,
             box.max,
             Color(1.0f, 0.0f, 0.0f, 1.0f),
-            Graphics::DRAW_STYLE_Outline
+            Graphics::EDrawStyle::Outline
         );
     }
 

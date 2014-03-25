@@ -8,7 +8,7 @@ solution "Iso"
         "../Engine/Code/",
         "./Code/"
     }
-    defines { "_UNICODE" }
+    defines { "UNICODE", "_UNICODE" }
     
     
     

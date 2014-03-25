@@ -11,7 +11,7 @@
 //=============================================================================
 CApplication::CApplication ()
 {
-    m_window = System::WindowCreate(L"Game", 1024, 768);
+    m_window = System::WindowCreate("Game", 1024, 768);
     m_window->NotifyRegister(this);
 
     Graphics::GetContext()->Initialize(m_window);
@@ -22,7 +22,7 @@ CApplication::CApplication ()
 
     Map::GetContext()->Initialize();
 
-    m_app = new CAppBattle();
+    m_app = new CAppBouyant();
 }
 
 //=============================================================================

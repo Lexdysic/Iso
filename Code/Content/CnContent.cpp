@@ -186,7 +186,7 @@ const TileSetDef * TileSetEnum (uint index)
 
 AUTO_INIT_FUNC(TestJson)
 {
-    Json::CValue root = Json::ParseFile(L"P:\\Dev\\Iso\\Assets\\Entities\\bullet.json");
+    Json::CValue root = Json::ParseFile("P:\\Projects\\Iso\\Assets\\Entities\\bullet.json");
 }
 
 } // namespace Content
