@@ -34,24 +34,25 @@ float32 OverlappedArea (const Circle & circle, const Aabb2 & box, float step = 1
 }
 
 //=============================================================================
-TArray<Point2> OverlappedPolygon (const TArray<Point2> & clipPoly, const TArray<Point2> & subjectPoly)
+Polygon2 OverlappedPolygon (const Polygon2 & clipPoly, const Polygon2 & subjectPoly)
 {
     // http://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm
 
-    ASSERT(clipPoly.Count() >= 3);
-    ASSERT(subjectPoly.Count() >= 3);
+    ASSERT(clipPoly.points.Count() >= 3);
+    ASSERT(subjectPoly.points.Count() >= 3);
 
-    TArray<Point2> outputList = subjectPoly;
+    Polygon2 outputList = subjectPoly;
 
-    Point2 clipB = *clipPoly.Top();
-    for (const auto & clipA : clipPoly)
+    Point2 clipB = *clipPoly.points.Top();
+    for (const auto & clipA : clipPoly.points)
     {
         const Plane2 clipPlane(clipA, clipB);
 
-        TArray<Point2> inputList = std::move(outputList);
+        Polygon2 inputList;
+        inputList.points = std::move(outputList.points);
 
-        Point2 subjectB = *inputList.Top();
-        for (const auto & subjectA : inputList)
+        Point2 subjectB = *inputList.points.Top();
+        for (const auto & subjectA : inputList.points)
         {
             using namespace Geometry;
 
@@ -59,49 +60,21 @@ TArray<Point2> OverlappedPolygon (const TArray<Point2> & clipPoly, const TArray<
 
             IntersectInfo2 info;
             if (Intersect(info, subjectLine, clipPlane))
-                outputList.Add(info.point);
+                outputList.points.Add(info.point);
 
             if (Test(subjectA, clipPlane) == TestResult::Inside)
-                outputList.Add(subjectA);
+                outputList.points.Add(subjectA);
 
             subjectB = subjectA;
         }
 
-        if (outputList.IsEmpty())
+        if (outputList.points.IsEmpty())
             break;
 
         clipB = clipA;
     }
 
-    ASSERT(outputList.Count() >= 3);
     return outputList;
-}
-
-//=============================================================================
-float32 ComputeArea (const TArray<Point2> & poly)
-{
-    float totalArea = 0.0f;
-
-    using namespace Geometry;
-
-    EWinding groupWinding = EWinding::Invalid;
-
-    const Point2 & a = poly[0];
-    for (uint i = 2; i < poly.Count(); ++i)
-    {
-        const Point2 & c = poly[i];
-        const Point2 & b = poly[i-1];
-        
-        const Triangle2 tri(a, b, c);
-
-        const EWinding winding = tri.ComputeWiding();
-        ASSERT(winding != EWinding::Invalid);
-        ASSERT(groupWinding == EWindow::Invalid || winding == groupWinding); // Can only handle convex polygons
-
-        totalArea += tri.ComputeArea();
-    }
-
-    return totalArea;
 }
 
 
@@ -115,58 +88,96 @@ float32 ComputeArea (const TArray<Point2> & poly)
 //=============================================================================
 CAppBouyant::CAppBouyant ()
 {
-    m_water.min = {0, 400};
-    m_water.max = {1000, 600};
+    m_water.min = { 0, 400 };
+    m_water.max = { 1000, 600 };
 
-    m_ball.center = {500, 300};
+    m_ball.center = { 500, 300 };
     m_ball.radius = 20.0;
-    m_ballVel = Vector2::Zero;
-    m_ballAccel = Vector2::Zero;
+    m_ballVel     = Vector2::Zero;
+    m_ballAccel   = Vector2::Zero;
 
-    const Radian angle = Radian(1.0f);
+    const Radian angle = Radian(Degree(10.0f));
     const Vector2 v = Vector2(Cos(angle), Sin(angle)) * 10.0f ;
-    m_box = Obb2({500, 395}, v, Perpendicular(v));
+    m_box = Obb2({500, 390}, v, Perpendicular(v));
+
+
+    {
+        const Vector2 SIZE = { 50.0f, 20.0f };
+
+        m_entity = EntityGetContext()->CreateEntity();
+
+        // Transform
+        {
+            auto * transform = EnsureComponent<CTransformComponent2>(m_entity);
+            transform->SetPosition({500, 300});
+            transform->SetRotation(Radian(Degree(20.0f)));
+        }
+
+        // Rigid Body
+        {
+            using namespace Physics;
+            auto * rigidBody = EnsureComponent<IRigidBodyComponent>(m_entity);
+        }
+
+        // Collider
+        {
+            using namespace Physics;
+            auto * collider = EnsureComponent<IColliderComponent>(m_entity, Aabb2(Point2(-0.5f * SIZE), Point2(0.5f * SIZE)));
+        }
+
+        // Graphics
+        {
+            using namespace Graphics;
+            auto * primative = IPrimativeComponent::Attach(m_entity, SIZE);
+        }
+    }
 }
 
 //=============================================================================
 CAppBouyant::~CAppBouyant ()
 {
-
+    EntityGetContext()->DestroyEntity(m_entity);
 }
 
 //=============================================================================
 void CAppBouyant::Update ()
-{    
-    const Vector2 GRAVITY       = Vector2::UnitY * 10.0f; // m/s^2
+{
     const float   AIR_DRAG      = 0.001f;
     const float   AIR_DENSITY   = 0.01f;
     const float   WATER_DRAG    = 0.5f;
-    const float   WATER_DENSITY = 2.0;
-    const float   BALL_MASS     = 1000.0f;
+    const float   WATER_DENSITY = 0.01;
 
-    // bouyancy
-    const float displacement = OverlappedArea(m_ball, m_water);
-    const Vector2 bouyancyForce = -displacement * WATER_DENSITY * GRAVITY;
+    //// drag
+    //const float ballArea         = Math::Pi * Sq(m_ball.r);
+    //const float ballCrossSection = (m_ball.r * 2);
+    //const float ballDragCoeff    = 0.47f; // http://en.wikipedia.org/wiki/Drag_coefficient
 
-    // gravity
-    const Vector2 gravityForce = BALL_MASS * GRAVITY;
+    //const float   dragT       = displacement / ballArea; // Try to estimate the displaced density 
+    //const float   dragDensity = Lerp(AIR_DENSITY, WATER_DENSITY, dragT);
+    //const Vector2 dragForce   = -0.5f * dragDensity * Sq(m_ballVel) * ballCrossSection * ballDragCoeff; // http://en.wikipedia.org/wiki/Drag_equation
 
-    // drag
-    const float ballArea         = Math::Pi * Sq(m_ball.r);
-    const float ballCrossSection = (m_ball.r * 2);
-    const float ballDragCoeff    = 0.47f; // http://en.wikipedia.org/wiki/Drag_coefficient
 
-    const float   dragT       = displacement / ballArea; // Try to estimate the displaced density 
-    const float   dragDensity = Lerp(AIR_DENSITY, WATER_DENSITY, dragT);
-    const Vector2 dragForce   = -0.5f * dragDensity * Sq(m_ballVel) * ballCrossSection * ballDragCoeff; // http://en.wikipedia.org/wiki/Drag_equation
-    
-    // Itegrate
-    
-    const float dt = Time::GetGameDelta().GetSeconds();
-    const Vector2 totalForce = gravityForce + bouyancyForce + dragForce;
-    m_ballAccel = totalForce / BALL_MASS;
-    m_ballVel += m_ballAccel * dt;
-    m_ball.center += m_ballVel * dt + m_ballAccel * Sq(dt);
+
+
+    const Polygon2 waterPoly = m_water.GetPoints();
+
+    {
+        using namespace Physics;
+
+        auto * transform = m_entity->Get<CTransformComponent2>();
+        auto * rigidbody = m_entity->Get<IRigidBodyComponent>();
+        auto * collider  = m_entity->Get<IColliderComponent>();
+
+        const auto poly = collider->GetPolygon();
+        const auto clippedPoly = OverlappedPolygon(waterPoly, poly);
+
+        Point2 centroid;
+        float32 displacement;
+        clippedPoly.ComputeInfo(&centroid, &displacement);
+
+        const Vector2 bouyancyForce = -displacement * WATER_DENSITY * Physics::GetContext()->GetGravity();
+        rigidbody->AddForce(bouyancyForce, centroid);
+    }
 }
 
 //=============================================================================
@@ -189,24 +200,23 @@ void CAppBouyant::Render ()
     // Box
     {
 
-        const Matrix23 boxWorld = m_box.GetMatrix();
-        backbuffer->SetWorld(boxWorld);
-        backbuffer->Rectangle({-1, -1}, {1, 1}, Color::White);
+        //const Matrix23 boxWorld = m_box.GetMatrix();
+        //backbuffer->SetWorld(boxWorld);
+        //backbuffer->Rectangle({-1, -1}, {1, 1}, Color::White);
 
-        backbuffer->SetWorld(Matrix23::Identity);
-        auto boxPoints = m_box.GetPoints();
-        auto waterPoints = m_water.GetPoints();
+        //backbuffer->SetWorld(Matrix23::Identity);
+        //auto boxPoints = m_box.GetPoints();
+        //auto waterPoints = m_water.GetPoints();
 
-        auto clippedPoints = OverlappedPolygon(waterPoints, boxPoints);
+        //auto clippedPoly = OverlappedPolygon(waterPoints, boxPoints);
 
-        auto clippedArea = ComputeArea(clippedPoints);
+        //Point2 centroid;
+        //float32 area;
+        //clippedPoly.ComputeInfo(&centroid, &area);
 
-        backbuffer->Line(clippedPoints, Color::Magenta, 1.0f, Graphics::ELoop::Closed);
+        //backbuffer->Line(clippedPoly.points, Color::Magenta, 1.0f, Graphics::ELoop::Closed);
+
+        //backbuffer->Circle(centroid, 0.5f, Color::Aqua);
+        //backbuffer->Circle(m_box.center, 0.5f, Color::Black);
     }
-}
-
-//=============================================================================
-float CAppBouyant::ComputeDisplacement()
-{
-    return 0.0f;
 }

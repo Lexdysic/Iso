@@ -18,7 +18,8 @@ public: // IApp
     void Update () override;
 
 private:
-    float ComputeDisplacement();
+
+    IEntity * m_entity;
 
     Obb2 m_box;
     Circle m_ball;

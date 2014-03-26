@@ -58,10 +58,9 @@ void CApplication::Update ()
     InputGetManager()->Update();
 
     m_frameTimer.Update();
-    const Time::Delta deltaTime = m_frameTimer.GetCurrentFrameTime();
-    //const Time::Delta deltaTime = Time::GetGameDelta();
+    const Time::Delta deltaTime = Time::GetGameDelta();
     const float32 time = (float)deltaTime.GetSeconds();
-
+    
 
     Physics::GetContext()->Update(deltaTime);
     Pathing::GetContext()->Update();
