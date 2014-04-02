@@ -5,7 +5,9 @@
 //
 //=============================================================================
 
-// None yet
+#ifdef USES_GAME_WORLD_VIEW
+#   define USES_ENGINE_TIME
+#endif
 
 
 

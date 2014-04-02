@@ -17,7 +17,7 @@ interface IContext
 {
     virtual ICamera * GetCamera () pure;
 
-    virtual void Update (float32 elapsedTime) pure;
+    virtual void Update (const Time::Delta deltaTime) pure;
     
     virtual void SetScreenSize (const Vector2 & size) pure;
 };

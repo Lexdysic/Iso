@@ -8,7 +8,7 @@ namespace WorldView
 CContext CContext::s_context;
 
 //=============================================================================
-void CContext::Update (float32 elapsedTime)
+void CContext::Update (const Time::Delta deltaTime)
 {
     m_camera.Update();
 }

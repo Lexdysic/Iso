@@ -11,7 +11,7 @@ public:
 
 public:
     ICamera * GetCamera () override { return &m_camera; }
-    void Update (float32 elapsedTime) override;
+    void Update (const Time::Delta deltaTime) override;
     void SetScreenSize (const Vector2 & size) override;
 private:
 

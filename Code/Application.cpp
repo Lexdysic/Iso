@@ -54,23 +54,19 @@ void CApplication::Go ()
 //=============================================================================
 void CApplication::Update ()
 {
-    Time::Update();
-    InputGetManager()->Update();
-
     m_frameTimer.Update();
+    Time::Update();
     const Time::Delta deltaTime = Time::GetGameDelta();
-    const float32 time = (float)deltaTime.GetSeconds();
-    
 
+    InputGetManager()->Update();
     Physics::GetContext()->Update(deltaTime);
     Pathing::GetContext()->Update();
     m_app->Update();
     EntityGetContext()->Update();
 
     WorldView::GetContext()->SetScreenSize(Graphics::GetContext()->GetScreenSize());
-
-    WorldView::GetContext()->Update(time);
-    UserInterface::GetContext()->Update(time);
+    WorldView::GetContext()->Update(deltaTime);
+    UserInterface::GetContext()->Update(deltaTime);
 }
 
 //=============================================================================
