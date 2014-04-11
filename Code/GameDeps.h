@@ -9,6 +9,10 @@
 #   define USES_ENGINE_TIME
 #endif
 
+#ifdef USES_GAME_TABLE
+#   define USES_ENGINE_UTILITY_NOTIFIER
+#endif
+
 
 
 //=============================================================================
@@ -20,17 +24,21 @@
 #include "EngineDeps.h"
 
 #ifdef USES_GAME_WIDGETS
-#include "Widgets\Widgets.h"
+#   include "Widgets\Widgets.h"
 #endif
 
 #ifdef USES_GAME_CONTENT
-#include "Content\Content.h"
+#   include "Content\Content.h"
 #endif
 
 #ifdef USES_GAME_WORLD_VIEW
-#include "WorldView\WorldView.h"
+#   include "WorldView\WorldView.h"
 #endif
 
 #ifdef USES_GAME_MAP
-#include "Map\Map.h"
+#   include "Map\Map.h"
+#endif
+
+#ifdef USES_GAME_TABLE
+#   include "GameTable\GameTable.h"
 #endif

@@ -46,14 +46,45 @@ CAppBouyant::CAppBouyant ()
     m_water.min = { 0, 400 };
     m_water.max = { 1000, 600 };
 
+    // Water
     {
-        const Vector2 SIZE = { 50.0f, 20.0f };
+        const Vector2 SIZE = { 1000.0f, 200.0f };
 
-        m_entity = EntityGetContext()->CreateEntity();
+        m_entityWater = EntityGetContext()->CreateEntity();
 
         // Transform
         {
-            auto * transform = EnsureComponent<CTransformComponent2>(m_entity);
+            auto * transform = EnsureComponent<CTransformComponent2>(m_entityWater);
+            transform->SetPosition({500, 500});
+        }
+        
+        // Collider
+        {
+            using namespace Physics;
+            auto * collider = EnsureComponent<IColliderComponent>(
+                m_entityWater,
+                Aabb2(Point2(-0.5f * SIZE), Point2(0.5f * SIZE)),
+                EMaterial::Liquid
+            );
+        }
+
+        // Graphics
+        {
+            using namespace Graphics;
+            auto * primative = IPrimativeComponent::Attach(m_entityWater, SIZE);
+            primative->SetColor(Color::Blue);
+        }
+    }
+
+    // Box
+    {
+        const Vector2 SIZE = { 50.0f, 20.0f };
+
+        m_entityBox = EntityGetContext()->CreateEntity();
+
+        // Transform
+        {
+            auto * transform = EnsureComponent<CTransformComponent2>(m_entityBox);
             transform->SetPosition({500, 400});
             transform->SetRotation(Radian(Degree(20.0f)));
         }
@@ -61,19 +92,19 @@ CAppBouyant::CAppBouyant ()
         // Collider
         {
             using namespace Physics;
-            auto * collider = EnsureComponent<IColliderComponent>(m_entity, Aabb2(Point2(-0.5f * SIZE), Point2(0.5f * SIZE)));
+            auto * collider = EnsureComponent<IColliderComponent>(m_entityBox, Aabb2(Point2(-0.5f * SIZE), Point2(0.5f * SIZE)));
         }
 
         // Graphics
         {
             using namespace Graphics;
-            auto * primative = IPrimativeComponent::Attach(m_entity, SIZE);
+            auto * primative = IPrimativeComponent::Attach(m_entityBox, SIZE);
         }
 
         // Rigid Body
         {
             using namespace Physics;
-            auto * rigidBody = EnsureComponent<IRigidBodyComponent>(m_entity);
+            auto * rigidBody = EnsureComponent<IRigidBodyComponent>(m_entityBox);
             rigidBody->SetMass(35.0f);
         }
     }
@@ -82,7 +113,7 @@ CAppBouyant::CAppBouyant ()
 //=============================================================================
 CAppBouyant::~CAppBouyant ()
 {
-    EntityGetContext()->DestroyEntity(m_entity);
+    EntityGetContext()->DestroyEntity(m_entityBox);
 }
 
 //=============================================================================
@@ -100,25 +131,27 @@ void CAppBouyant::Update ()
     //const float   dragDensity = Lerp(AIR_DENSITY, WATER_DENSITY, dragT);
     //const Vector2 dragForce   = -0.5f * dragDensity * Sq(m_ballVel) * ballCrossSection * ballDragCoeff; // http://en.wikipedia.org/wiki/Drag_equation
 
-    {
-        SI::Acceleration gravity = SI::Acceleration(-10.0f);
-        SI::Newton bouyancy = SI::Area(5.0f) * SI::AreaDensity(4.0f) * gravity;
-        SI::Newton force = bouyancy;
-        SI::Acceleration accel = bouyancy / SI::Kilogram(10.0f) + gravity;
-        SI::Second dt = SI::Second(1.0f);
-        SI::Velocity v = v + accel * dt;
-        SI::Meter p = p + v * dt + SI::Unitless(0.5f) * accel * dt * dt;
-    }
+    //{
+    //    SI::Acceleration gravity = SI::Acceleration(-10.0f);
+    //    SI::Newton bouyancy = SI::Area(5.0f) * SI::AreaDensity(4.0f) * gravity;
+    //    SI::Newton force = bouyancy;
+    //    SI::Acceleration accel = bouyancy / SI::Kilogram(10.0f) + gravity;
+    //    SI::Second dt = SI::Second(1.0f);
+    //    SI::Velocity v = v + accel * dt;
+    //    SI::Meter p = p + v * dt + SI::Unitless(0.5f) * accel * dt * dt;
+    //}
 
 
     const Polygon2 waterPoly = m_water.GetPoints();
 
+
+    // TODO: move these calcs into the physics system
     {
         using namespace Physics;
 
-        auto * transform = m_entity->Get<CTransformComponent2>();
-        auto * rigidbody = m_entity->Get<IRigidBodyComponent>();
-        auto * collider  = m_entity->Get<IColliderComponent>();
+        auto * transform = m_entityBox->Get<CTransformComponent2>();
+        auto * rigidbody = m_entityBox->Get<IRigidBodyComponent>();
+        auto * collider  = m_entityBox->Get<IColliderComponent>();
 
         const auto poly = collider->GetPolygon();
         const auto clippedPoly = Polygon2::Clip(poly, waterPoly);
@@ -144,9 +177,4 @@ void CAppBouyant::Render ()
     Graphics::IRenderTarget * backbuffer = Graphics::GetContext()->Backbuffer();
     backbuffer->SetView(Matrix23::Identity);
     backbuffer->SetWorld(Matrix23::Identity);
-
-    // Water
-    {
-        backbuffer->Rectangle(m_water.min, m_water.max, Color::Blue);
-    }
 }

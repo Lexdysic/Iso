@@ -24,3 +24,4 @@
 #include "AppBattle.h"
 #include "AppPowerGraph.h"
 #include "AppBouyant.h"
+#include "AppMachi.h"

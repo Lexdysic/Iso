@@ -23,8 +23,8 @@ const float32 ZOOM = 1.1f;
 
 //=============================================================================
 CRoot::CRoot () :
-    CWidget(NULL),
-    m_menu(NULL),
+    CWidget(null),
+    m_menu(null),
     m_isMouseDrag(false),
     m_isMouseDown(false)
 {
@@ -63,7 +63,7 @@ void CRoot::OnWidgetMouseDown (EMouse button, const Point2 & mousePos)
     if (m_menu)
     {
         delete m_menu;
-        m_menu = NULL;
+        m_menu = null;
     }
 
     if (button == EMouse::Primary)

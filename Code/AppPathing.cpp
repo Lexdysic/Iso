@@ -75,9 +75,9 @@ float TestNode::GetHeuristic (Pathing::INode * a, Pathing::INode * b)
 
 //=============================================================================
 CAppPathing::CAppPathing () :
-    m_nodeStart(NULL),
-    m_nodeEnd(NULL),
-    m_query(NULL)
+    m_nodeStart(null),
+    m_nodeEnd(null),
+    m_query(null)
 {
     Random rand;
 
@@ -117,7 +117,7 @@ CAppPathing::CAppPathing () :
                 y * SIZE + rand.Range(-HALF_SIZE, HALF_SIZE) + OFFSET.x
             );
 
-            INode * node = Blocked(point) ? NULL : m_graph->NodeAdd(new TestNode(point));
+            INode * node = Blocked(point) ? null : m_graph->NodeAdd(new TestNode(point));
             nodes[x][y] = node;
         }
     }

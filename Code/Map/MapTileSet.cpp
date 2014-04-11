@@ -12,7 +12,7 @@ namespace Map
 
 //=============================================================================
 TileSet::TileSet () :
-    tileSetDef(NULL)
+    tileSetDef(null)
 {
 
     MemZero(images);

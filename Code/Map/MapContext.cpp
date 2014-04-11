@@ -43,7 +43,7 @@ void CContext::Initialize ()
                 break;
 
             Graphics::IImage * image = Graphics::GetContext()->ImageLoad(file);
-            ASSERT_MSG(image, L"Could not find file \"%s\"", file);
+            ASSERT_MSG(image, "Could not find file \"%s\"", file);
 
             tileSet.images[i] = image;
         }
@@ -147,7 +147,7 @@ void CContext::DrawOutline (const Point2s & tilePos)
 
     const Cell * cell = FindCell(tilePos);
 
-    const Content::TileDef * tileDef = cell ? (cell->tileSet->tileSetDef->tiles + cell->tileIndex) : NULL;
+    const Content::TileDef * tileDef = cell ? (cell->tileSet->tileSetDef->tiles + cell->tileIndex) : null;
     const Vector2 height(0.0f, cell ? -cell->height : 0.0f);
 
     Vector2 tileBotPos(float32(tilePos.x), float32(tilePos.y));
@@ -268,7 +268,7 @@ Cell * CContext::FindCell (const Point2s & tilePos)
     });
 
     if (cellIt == m_cells.Term())
-        return NULL;
+        return null;
 
     return &*cellIt;
 }
@@ -284,7 +284,7 @@ TileSet * CContext::FindTileSet (const Content::TileSetDef * tileSetDef)
     });
 
     if (it == m_tileSets.Term())
-        return NULL;
+        return null;
 
     return &*it;
 }

@@ -1,16 +1,16 @@
 
 //=============================================================================
 //
-// CAppBouyant
+// CAppMachi
 //
 //=============================================================================
 
-class CAppBouyant :
+class CAppMachi :
     public IApp
 {
 public:
-    CAppBouyant ();
-    ~CAppBouyant ();
+    CAppMachi ();
+    ~CAppMachi ();
 
 public: // IApp
 
@@ -19,9 +19,5 @@ public: // IApp
 
 private:
 
-    IEntity * m_entityBox;
-    IEntity * m_entityWater;
-
-    Circle m_ball;
-    Aabb2 m_water;
+    IEntity * m_entity;
 };

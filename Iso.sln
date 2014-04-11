@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Build\Projects\Game.vcxproj", "{16D13A0A-8D40-0744-B7ED-73D8BFB64544}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Build\Projects\Game.vcxproj", "{AADE0532-CE72-AD48-984F-D5381A6E102F}"
 	ProjectSection(ProjectDependencies) = postProject
-		{03B4C6B3-8326-C441-8C2B-9B63C894F3F8} = {03B4C6B3-8326-C441-8C2B-9B63C894F3F8}
+		{1E9A263D-D44C-2849-AC5B-022626422186} = {1E9A263D-D44C-2849-AC5B-022626422186}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Build\Projects\Engine.vcxproj", "{03B4C6B3-8326-C441-8C2B-9B63C894F3F8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Build\Projects\Engine.vcxproj", "{1E9A263D-D44C-2849-AC5B-022626422186}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,14 +14,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{16D13A0A-8D40-0744-B7ED-73D8BFB64544}.Debug|Win32.ActiveCfg = Debug|Win32
-		{16D13A0A-8D40-0744-B7ED-73D8BFB64544}.Debug|Win32.Build.0 = Debug|Win32
-		{16D13A0A-8D40-0744-B7ED-73D8BFB64544}.Release|Win32.ActiveCfg = Release|Win32
-		{16D13A0A-8D40-0744-B7ED-73D8BFB64544}.Release|Win32.Build.0 = Release|Win32
-		{03B4C6B3-8326-C441-8C2B-9B63C894F3F8}.Debug|Win32.ActiveCfg = Debug|Win32
-		{03B4C6B3-8326-C441-8C2B-9B63C894F3F8}.Debug|Win32.Build.0 = Debug|Win32
-		{03B4C6B3-8326-C441-8C2B-9B63C894F3F8}.Release|Win32.ActiveCfg = Release|Win32
-		{03B4C6B3-8326-C441-8C2B-9B63C894F3F8}.Release|Win32.Build.0 = Release|Win32
+		{AADE0532-CE72-AD48-984F-D5381A6E102F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AADE0532-CE72-AD48-984F-D5381A6E102F}.Debug|Win32.Build.0 = Debug|Win32
+		{AADE0532-CE72-AD48-984F-D5381A6E102F}.Release|Win32.ActiveCfg = Release|Win32
+		{AADE0532-CE72-AD48-984F-D5381A6E102F}.Release|Win32.Build.0 = Release|Win32
+		{1E9A263D-D44C-2849-AC5B-022626422186}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1E9A263D-D44C-2849-AC5B-022626422186}.Debug|Win32.Build.0 = Debug|Win32
+		{1E9A263D-D44C-2849-AC5B-022626422186}.Release|Win32.ActiveCfg = Release|Win32
+		{1E9A263D-D44C-2849-AC5B-022626422186}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

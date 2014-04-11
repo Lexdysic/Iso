@@ -1,6 +1,9 @@
 
 #include "AppPch.h"
 
+#if 0
+#define APP_RENDER_CENTER_DOT
+#endif
 
 //=============================================================================
 //
@@ -64,8 +67,11 @@ void CApplication::Update ()
     m_app->Update();
     EntityGetContext()->Update();
 
+    // TODO: only need to do this when the window's size actually changes
     WorldView::GetContext()->SetScreenSize(Graphics::GetContext()->GetScreenSize());
+
     WorldView::GetContext()->Update(deltaTime);
+
     UserInterface::GetContext()->Update(deltaTime);
 }
 
@@ -106,11 +112,13 @@ void CApplication::Render ()
         Graphics::GetContext()->DebugText(text, Point2(0, 0), Vector2(200, 500));
     }
 
+#ifdef APP_RENDER_CENTER_DOT
     backbuffer->Circle(
         Graphics::GetContext()->GetScreenSize() * 0.5f,
         1.0f,
         Color(1.0f, 0.0f, 0.0f)
     );
+#endif
 
     backbuffer->End();
 }
