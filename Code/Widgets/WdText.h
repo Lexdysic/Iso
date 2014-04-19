@@ -8,7 +8,7 @@ public:
     CText (UserInterface::CWidget * parent);
     ~CText ();
 
-    void SetText (const wchar text[]);
+    void SetText (const CString & text);
 
 private: // UserInterface::CWidget
 
@@ -17,7 +17,7 @@ private: // UserInterface::CWidget
     void OnWidgetGetNativeSize (Vector2 * outSize) override;
 
 private:
-    std::wstring     m_text;
+    CString m_text;
 };
 
 } // namespace Widgets

@@ -98,11 +98,11 @@ void CApplication::Render ()
         // TODO: move these lines to more appropriate places
         const float curFps = 1.0f / m_frameTimer.GetCurrentFrameTime().GetSeconds();
         const float aveFps = 1.0f / m_frameTimer.GetAverageFrameTime().GetSeconds();
-        DebugValue(L"Time Scale", Time::GetGameScale());
-        DebugValue(L"Current FPS", curFps);
-        DebugValue(L"Average FPS", aveFps);
+        DebugValue("Time Scale", Time::GetGameScale());
+        DebugValue("Current FPS", curFps);
+        DebugValue("Average FPS", aveFps);
 
-        wchar text[256];
+        char text[256];
         DebugValueGetString(text, array_size(text));
         DebugValueClear();
 

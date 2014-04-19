@@ -38,12 +38,12 @@ void CContext::Initialize ()
 
         for (uint32 i = 0; i < array_size(tileSetDef.tiles); ++i)
         {
-            const wchar * file = tileSetDef.tiles[i].image;
-            if (!file)
+            const CString & filename = CStringUtf16::FromData(tileSetDef.tiles[i].image);
+            if (filename.IsNullOrEmpty())
                 break;
 
-            Graphics::IImage * image = Graphics::GetContext()->ImageLoad(file);
-            ASSERT_MSG(image, "Could not find file \"%s\"", file);
+            Graphics::IImage * image = Graphics::GetContext()->ImageLoad(filename);
+            ASSERT_MSG(image, "Could not find file \"%s\"", filename.Ptr());
 
             tileSet.images[i] = image;
         }
