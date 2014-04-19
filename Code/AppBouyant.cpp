@@ -78,7 +78,8 @@ CAppBouyant::CAppBouyant ()
 
     // Box
     {
-        const Vector2 SIZE = { 50.0f, 20.0f };
+        const Vector2 SIZE = { 100.0f, 70.0f };
+        const float32 AREA_DENSITY = 0.07f;
 
         m_entityBox = EntityGetContext()->CreateEntity();
 
@@ -98,14 +99,14 @@ CAppBouyant::CAppBouyant ()
         // Graphics
         {
             using namespace Graphics;
-            auto * primative = IPrimativeComponent::Attach(m_entityBox, SIZE);
+            auto * primative = IImageComponent::Attach(m_entityBox, "Assets/Art/Objects/Box.png", SIZE);
         }
 
         // Rigid Body
         {
             using namespace Physics;
             auto * rigidBody = EnsureComponent<IRigidBodyComponent>(m_entityBox);
-            rigidBody->SetMass(35.0f);
+            rigidBody->SetMass(SIZE.x * SIZE.y * AREA_DENSITY);
         }
     }
 }
@@ -144,15 +145,14 @@ void CAppBouyant::Update ()
 
     const Polygon2 waterPoly = m_water.GetPoints();
 
-
-    // TODO: move these calcs into the physics system
     {
         using namespace Physics;
 
         auto * transform = m_entityBox->Get<CTransformComponent2>();
         auto * rigidbody = m_entityBox->Get<IRigidBodyComponent>();
         auto * collider  = m_entityBox->Get<IColliderComponent>();
-
+        
+        // TODO: move these calcs into the physics system
         const auto poly = collider->GetPolygon();
         const auto clippedPoly = Polygon2::Clip(poly, waterPoly);
 
@@ -168,6 +168,10 @@ void CAppBouyant::Update ()
             rigidbody->AddForce({-100.0f, 0.0f});
         if (InputGetManager()->KeyIsDown(EKey::Right))
             rigidbody->AddForce({100.0f, 0.0f});
+        if (InputGetManager()->KeyIsDown(EKey::Up))
+            rigidbody->AddTorque(100000.0f);
+        if (InputGetManager()->KeyIsDown(EKey::Down))
+            rigidbody->AddTorque(-100000.0f);
     }
 }
 
