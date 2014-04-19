@@ -18,20 +18,20 @@ CFrameTimer::~CFrameTimer ()
 void CFrameTimer::Update ()
 {
     // Pop
-    if (m_values.size() > N)
+    if (m_values.Count() > N)
     {
-        const Time::Delta lastValue = m_values.back();
-        m_currentAverage -= lastValue / m_values.size();
-        m_values.pop_back();
+        const Time::Delta lastValue = m_values[-1];
+        m_currentAverage -= lastValue / m_values.Count();
+        m_values.RemoveBack();
     }
 
     // Push
     {
         const Time::Delta frameTime = m_timer.Reset();
-        m_values.push_front(frameTime);
-        m_currentAverage += frameTime / m_values.size();
+        m_values.AddFront(frameTime);
+        m_currentAverage += frameTime / m_values.Count();
     }
 
     // TODO: the cumulative moving average wasnt working for some reason, so recalculating from the source
-    m_currentAverage = std::accumulate(m_values.begin(), m_values.end(), Time::Delta()) / m_values.size();
+    m_currentAverage = std::accumulate(m_values.begin(), m_values.end(), Time::Delta()) / m_values.Count();
 }
