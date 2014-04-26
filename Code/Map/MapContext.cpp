@@ -102,7 +102,7 @@ void CContext::Generate ()
             cell.tileSet   = &m_tileSets[tileSetIdx];
             cell.tileIndex = m_random.Max(cell.tileSet->tileSetDef->tileCount);
             cell.height    = 0.0f;
-            assert(cell.tileIndex < cell.tileSet->tileSetDef->tileCount);
+            ASSERT(cell.tileIndex < cell.tileSet->tileSetDef->tileCount);
 
             m_cells.Add(cell);
         }
@@ -223,7 +223,7 @@ void CContext::CellRotate (const Point2s & tilePos)
 void CContext::CellSetTileSet (const Point2s & cellPos, const Content::TileSetDef * tileSetDef)
 {
     TileSet * tileSet = FindTileSet(tileSetDef);
-    assert(tileSet);
+    ASSERT(tileSet);
 
     Cell * cell = FindCell(cellPos);
     if (cell)

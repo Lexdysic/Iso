@@ -179,7 +179,7 @@ uint TileSetGetCount ()
 
 const TileSetDef * TileSetEnum (uint index)
 {
-    assert(index < array_size(s_tileSetDefs));
+    ASSERT(index < array_size(s_tileSetDefs));
     return s_tileSetDefs + index;
 }
 

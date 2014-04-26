@@ -8,7 +8,7 @@ namespace Map
 void Cell::SetTileSetDef (const Content::TileSetDef * tileSetDef)
 {
     tileSet = CContext::Get()->FindTileSet(tileSetDef);
-    assert(tileSet);
+    ASSERT(tileSet);
 }
 
 //=============================================================================

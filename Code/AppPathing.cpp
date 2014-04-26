@@ -262,7 +262,7 @@ void CAppPathing::OnWindowMouseDown (EMouse button, const Point2s & pos)
 
     const Point2 cursorPos((float32)pos.x, (float32)pos.y);
 
-    Pathing::INode * nodeBest = nullptr;
+    Pathing::INode * nodeBest = null;
     float            distSqBest = Math::Infinity;
 
     const TArray<Pathing::INode *> & nodes = m_graph->GetNodes();
