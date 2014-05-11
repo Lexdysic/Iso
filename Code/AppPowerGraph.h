@@ -13,12 +13,12 @@ namespace Graphics
 
 class CResourceInputComponent :
     public CComponent,
-    public CRefCounted<CResourceInputComponent>
+    public TRefCounted<CResourceInputComponent>
 {
 public:
 
     typedef StrongPtr<CResourceInputComponent> Ptr;
-    typedef WeakPtr<CResourceInputComponent> Ref;
+    typedef TWeakPtr<CResourceInputComponent> Ref;
 
     void AddTerminal (Token name);
     Point2 GetPosition (Token name);
@@ -46,12 +46,12 @@ private:
 
 class CResourceOutputComponent :
     public CComponent,
-    public CRefCounted<CResourceOutputComponent>
+    public TRefCounted<CResourceOutputComponent>
 {
 public:
 
     typedef StrongPtr<CResourceOutputComponent> Ptr;
-    typedef WeakPtr<CResourceOutputComponent> Ref;
+    typedef TWeakPtr<CResourceOutputComponent> Ref;
     
     void AddTerminal (Token name);
     Point2 GetPosition (Token name);
@@ -79,7 +79,7 @@ private:
 
 class CResourceLineComponent :
     public Graphics::CRenderComponent,
-    public CRefCounted<CResourceLineComponent>
+    public TRefCounted<CResourceLineComponent>
 {
 public:
 
@@ -93,7 +93,7 @@ public:
     );
 
     typedef StrongPtr<CResourceLineComponent> Ptr;
-    typedef WeakPtr<CResourceLineComponent> Ref;
+    typedef TWeakPtr<CResourceLineComponent> Ref;
 
 public: // CRenderComponent
 
