@@ -172,21 +172,17 @@ const TileSetDef s_tileSetDefs[] =
 const TileSetDef * TileSetList::begin () { return s_tileSetDefs; }
 const TileSetDef * TileSetList::end () { return s_tileSetDefs + array_size(s_tileSetDefs); }
 
+//=============================================================================
 uint TileSetGetCount ()
 {
     return array_size(s_tileSetDefs);
 }
 
+//=============================================================================
 const TileSetDef * TileSetEnum (uint index)
 {
     ASSERT(index < array_size(s_tileSetDefs));
     return s_tileSetDefs + index;
-}
-
-
-AUTO_INIT_FUNC(TestJson)
-{
-    Json::CValue root = Json::ParseFile("P:\\Projects\\Iso\\Assets\\Entities\\bullet.json");
 }
 
 } // namespace Content

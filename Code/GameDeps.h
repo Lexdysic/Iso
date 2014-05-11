@@ -13,6 +13,10 @@
 #   define USES_ENGINE_UTILITY_NOTIFIER
 #endif
 
+#ifdef USES_GAME_CONTENT
+#   define USES_ENGINE_ENTITY
+#endif
+
 
 
 //=============================================================================
