@@ -6,24 +6,32 @@
         {
             "position" : [0, 0],
         },
-
-        "Rigidbody" :
+		
+		"Rigidbody" :
         {
             "mass" : 10
         },
 
         "Collider" :
         {
-            "type" : "circle,
+            "type" : "circle",
             "position" : [0, 0],
-            "radius" : 4,
+            "radius" : 4
         },
 
         "Graphics" :
         {
             "type" : "circle",
             "position" : [0, 0],
-            "radius" : 4,
-        }
+            "radius" : 4
+        },
+
+		"Script" :
+		{
+			"Text" : "
+			def OnSpawn ():
+				pass
+			"
+		}
     }
 }
