@@ -17,12 +17,16 @@ CApplication::CApplication ()
     m_window = System::WindowCreate("Game", 1024, 768);
     m_window->NotifyRegister(this);
 
+    // Engine
     Graphics::GetContext()->Initialize(m_window);
     UserInterface::GetContext()->Initialize(m_window);
     InputGetManager()->Initialize(m_window);
     EntityGetContext()->Initialize();
     Physics::GetContext()->Initialize();
+    Time::Update();
 
+    // Game
+    Content::GetContext()->Initialize();
     Map::GetContext()->Initialize();
 
     m_app = new CAppBouyant();
@@ -33,9 +37,13 @@ CApplication::~CApplication ()
 {
     delete m_app;
 
+    // Game
+    Content::GetContext()->Uninitialize();
+    Map::GetContext()->Uninitialize();
+
+    // Engine
     EntityGetContext()->Uninitialize();
     InputGetManager()->Uninitialize();
-    Map::GetContext()->Uninitialize();
     UserInterface::GetContext()->Uninitialize();
     Graphics::GetContext()->Uninitialize();
     Physics::GetContext()->Uninitialize();

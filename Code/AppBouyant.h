@@ -24,4 +24,5 @@ private:
 
     Circle m_ball;
     Aabb2 m_water;
+    Polygon2 m_bouyantPoly;
 };

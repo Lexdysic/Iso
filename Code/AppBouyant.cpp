@@ -43,12 +43,14 @@ float32 OverlappedArea (const Circle & circle, const Aabb2 & box, float step = 1
 //=============================================================================
 CAppBouyant::CAppBouyant ()
 {
-    m_water.min = { 0, 400 };
-    m_water.max = { 1000, 600 };
 
     // Water
     {
-        const Vector2 SIZE = { 1000.0f, 200.0f };
+        const Vector2 SIZE = { 1000.0f, 400.0f };
+        m_water = Aabb2(
+            Point2(500.0f, 500.0f),
+            SIZE * 0.5f
+        );
 
         m_entityWater = EntityGetContext()->CreateEntity();
 
@@ -72,21 +74,21 @@ CAppBouyant::CAppBouyant ()
         {
             using namespace Graphics;
             auto * primative = IPrimativeComponent::Attach(m_entityWater, SIZE);
-            primative->SetColor(Color::Blue);
+            primative->SetColor(Color(Color::Blue, 0.5f));
         }
     }
 
     // Box
     {
         const Vector2 SIZE = { 100.0f, 70.0f };
-        const float32 AREA_DENSITY = 0.07f;
+        const float32 AREA_DENSITY = 0.03f;
 
         m_entityBox = EntityGetContext()->CreateEntity();
 
         // Transform
         {
             auto * transform = EnsureComponent<CTransformComponent2>(m_entityBox);
-            transform->SetPosition({500, 400});
+            transform->SetPosition({500, 200});
             transform->SetRotation(Radian(Degree(20.0f)));
         }
 
@@ -154,11 +156,11 @@ void CAppBouyant::Update ()
         
         // TODO: move these calcs into the physics system
         const auto poly = collider->GetPolygon();
-        const auto clippedPoly = Polygon2::Clip(poly, waterPoly);
+        m_bouyantPoly = Polygon2::Clip(poly, waterPoly);
 
         Point2 centroid;
         float32 displacement;
-        clippedPoly.ComputeInfo(&centroid, &displacement);
+        m_bouyantPoly.ComputeInfo(&centroid, &displacement);
 
         const Vector2 bouyancyForce = -displacement * WATER_DENSITY * Physics::GetContext()->GetGravity();
         rigidbody->AddForce(bouyancyForce, centroid);
@@ -181,4 +183,6 @@ void CAppBouyant::Render ()
     Graphics::IRenderTarget * backbuffer = Graphics::GetContext()->Backbuffer();
     backbuffer->SetView(Matrix23::Identity);
     backbuffer->SetWorld(Matrix23::Identity);
+
+    backbuffer->Line(m_bouyantPoly.points, Color::Magenta);
 }
