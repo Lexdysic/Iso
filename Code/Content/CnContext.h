@@ -20,12 +20,16 @@ private:
     void Initialize () override;
     void Uninitialize () override;
 
-    IEntity * CreateEntity (const CString & name) override;
+    IEntity::Ptr CreateEntity (const CString & name) override;
 
 private:
+    typedef IComponent * (*FFactory)(const Json::CValue & data);
 
-    TDictionary<CString, Json::CValue> m_objects;
-    Json::CValue m_data;
+    TDictionary<CString, Json::ObjectType> m_objects;
+    TDictionary<CString, FFactory> m_factories;
+
+    void SetupFactories ();
+    void ReadContentFiles ();
 };
 
 } // namespace Content

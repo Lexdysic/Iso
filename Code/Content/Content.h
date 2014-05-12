@@ -9,7 +9,7 @@ interface IContext
     virtual void Initialize () pure;
     virtual void Uninitialize () pure;
 
-    virtual IEntity * CreateEntity (const CString & name) pure;
+    virtual IEntity::Ptr CreateEntity (const CString & name) pure;
 };
 
 IContext * GetContext();
