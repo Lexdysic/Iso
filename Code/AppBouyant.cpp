@@ -43,6 +43,7 @@ float32 OverlappedArea (const Circle & circle, const Aabb2 & box, float step = 1
 //=============================================================================
 CAppBouyant::CAppBouyant ()
 {
+    Physics::GetContext()->NotifyRegister(this);
 
     // Water
     {
@@ -120,7 +121,7 @@ CAppBouyant::~CAppBouyant ()
 }
 
 //=============================================================================
-void CAppBouyant::Update ()
+void CAppBouyant::OnPhysicsPreTick ()
 {
     const float AIR_DENSITY   = 0.01f;
     const float WATER_DENSITY = 0.1f;
@@ -175,6 +176,12 @@ void CAppBouyant::Update ()
         if (InputGetManager()->KeyIsDown(EKey::Down))
             rigidbody->AddTorque(-100000.0f);
     }
+}
+
+//=============================================================================
+void CAppBouyant::Update ()
+{
+
 }
 
 //=============================================================================

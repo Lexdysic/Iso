@@ -6,7 +6,8 @@
 //=============================================================================
 
 class CAppBouyant :
-    public IApp
+    public IApp,
+    public Physics::IContextNotify
 {
 public:
     CAppBouyant ();
@@ -16,6 +17,10 @@ public: // IApp
 
     void Render () override;
     void Update () override;
+
+public: // Physics::IContextNotify
+
+    void OnPhysicsPreTick () override;
 
 private:
 
