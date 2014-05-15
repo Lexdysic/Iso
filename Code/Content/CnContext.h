@@ -23,7 +23,7 @@ private:
     IEntity::Ptr CreateEntity (const CString & name) override;
 
 private:
-    typedef IComponent * (*FFactory)(const Json::CValue & data);
+    typedef IComponent * (*FFactory)(IEntity::Ref entity, const Json::CValue & data);
 
     TDictionary<CString, Json::ObjectType> m_objects;
     TDictionary<CString, FFactory> m_factories;

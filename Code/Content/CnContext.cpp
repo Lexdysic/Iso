@@ -41,11 +41,11 @@ IEntity::Ptr CContext::CreateEntity (const CString & name)
     if (!def)
         return null;
 
-    IEntity::Ptr entity = EntityGetContext()->CreateEntity();
-
     const auto * componentsValue = def->Find("Components");
     if (!componentsValue || componentsValue->GetType() != EType::Object)
         return null;
+    
+    IEntity::Ptr entity = EntityGetContext()->CreateEntity();
 
     const auto & components = *componentsValue->As<ObjectType>();
     for (auto kv : components)
@@ -53,15 +53,16 @@ IEntity::Ptr CContext::CreateEntity (const CString & name)
         const auto & name = kv.first;
         const auto & data = kv.second;
 
-        FFactory factory = m_factories.Find(name);
-        if (!factory)
+        FFactory createComponent = m_factories.Find(name);
+        if (!createComponent)
             continue; // TODO: show warning
 
-        IComponent * component = factory(data);
-
+        IComponent * component = createComponent(entity, data);
+        if (!component)
+            continue; // TODO: show warning
     }
 
-    return null;
+    return entity;
 }
 
 //=============================================================================
@@ -69,11 +70,11 @@ void CContext::SetupFactories ()
 {
     m_factories.Set("Transform",    MakeTransform);
     m_factories.Set("RigidBody",    MakeRigidBody);
-    m_factories.Set("Collider",     MakeCollider);
-    m_factories.Set("Graphics",     MakeGraphics);
-    m_factories.Set("TankControl",  MakeTankControl);
-    m_factories.Set("GunControl",   MakeGunControl);
-    m_factories.Set("Script",       MakeScript);
+    //m_factories.Set("Collider",     MakeCollider);
+    //m_factories.Set("Graphics",     MakeGraphics);
+    //m_factories.Set("TankControl",  MakeTankControl);
+    //m_factories.Set("GunControl",   MakeGunControl);
+    //m_factories.Set("Script",       MakeScript);
 }
 
 //=============================================================================
