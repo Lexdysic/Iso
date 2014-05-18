@@ -24,10 +24,13 @@ public: // Physics::IContextNotify
 
 private:
 
-    IEntity * m_entityBox;
-    IEntity * m_entityWater;
+    IEntity::Ptr m_entityBox;
+    IEntity::Ptr m_entityWater;
+    IEntity::Ptr m_bullet;
 
     Circle m_ball;
     Aabb2 m_water;
     Polygon2 m_bouyantPoly;
+    Point2 m_bouyantCentroid;
+    Vector2 m_bouyantForce;
 };

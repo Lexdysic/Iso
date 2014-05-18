@@ -1,6 +1,13 @@
 
 #include "AppPch.h"
 
+Vector2 Sqrt (const Vector2 & v)
+{
+    const float32 length = Length(v);
+    const float32 lengthSqrt = Sqrt(length);
+    return v * (lengthSqrt / length);
+}
+
 //=============================================================================
 float32 OverlappedArea (const Circle & circle, const Aabb2 & box, float step = 1.0f)
 {
@@ -79,45 +86,19 @@ CAppBouyant::CAppBouyant ()
         }
     }
 
-    // Box
+    m_entityBox = Content::GetContext()->CreateEntity("Crate");
     {
-        const Vector2 SIZE = { 100.0f, 70.0f };
-        const float32 AREA_DENSITY = 0.03f;
-
-        m_entityBox = EntityGetContext()->CreateEntity();
-
-        // Transform
-        {
-            auto * transform = EnsureComponent<CTransformComponent2>(m_entityBox);
-            transform->SetPosition({500, 200});
-            transform->SetRotation(Radian(Degree(20.0f)));
-        }
-
-        // Collider
-        {
-            using namespace Physics;
-            auto * collider = EnsureComponent<IColliderComponent>(m_entityBox, Aabb2(Point2(-0.5f * SIZE), Point2(0.5f * SIZE)));
-        }
-
-        // Graphics
-        {
-            using namespace Graphics;
-            auto * primative = IImageComponent::Attach(m_entityBox, "Assets/Art/Objects/Box.png", SIZE);
-        }
-
-        // Rigid Body
-        {
-            using namespace Physics;
-            auto * rigidBody = EnsureComponent<IRigidBodyComponent>(m_entityBox);
-            rigidBody->SetMass(SIZE.x * SIZE.y * AREA_DENSITY);
-        }
+        auto * transform = m_entityBox->Get<CTransformComponent2>();
+        transform->SetPosition({500, 200});
     }
+
+    
+    m_bullet = Content::GetContext()->CreateEntity("Bullet");
 }
 
 //=============================================================================
 CAppBouyant::~CAppBouyant ()
 {
-    EntityGetContext()->DestroyEntity(m_entityBox);
 }
 
 //=============================================================================
@@ -159,13 +140,14 @@ void CAppBouyant::OnPhysicsPreTick ()
         const auto poly = collider->GetPolygon();
         m_bouyantPoly = Polygon2::Clip(poly, waterPoly);
 
-        Point2 centroid;
         float32 displacement;
-        m_bouyantPoly.ComputeInfo(&centroid, &displacement);
+        m_bouyantPoly.ComputeInfo(&m_bouyantCentroid, &displacement);
 
-        const Vector2 bouyancyForce = -displacement * WATER_DENSITY * Physics::GetContext()->GetGravity();
-        rigidbody->AddForce(bouyancyForce, centroid);
-        rigidbody->AddForce(-0.5 * 0.01f * Sq(rigidbody->GetVelocity()) * 15.0f * 0.4f);
+        m_bouyantForce = -displacement * WATER_DENSITY * Physics::GetContext()->GetGravity();
+        rigidbody->AddForce(m_bouyantForce, m_bouyantCentroid);
+
+        const Vector2 dragForce = -0.5 * 0.01f * Sq(rigidbody->GetVelocity()) * 15.0f * 0.6f;
+        rigidbody->AddForce(dragForce);
 
         if (InputGetManager()->KeyIsDown(EKey::Left))
             rigidbody->AddForce({-100.0f, 0.0f});
@@ -191,5 +173,7 @@ void CAppBouyant::Render ()
     backbuffer->SetView(Matrix23::Identity);
     backbuffer->SetWorld(Matrix23::Identity);
 
-    backbuffer->Line(m_bouyantPoly.points, Color::Magenta);
+    backbuffer->Line(m_bouyantPoly.points, Color::Magenta, 3.0f, Graphics::ELoop::Closed);
+
+    backbuffer->Arrow(m_bouyantCentroid, Sqrt(m_bouyantForce * Time::GetGameDelta().GetSeconds()), Color::Magenta);
 }
