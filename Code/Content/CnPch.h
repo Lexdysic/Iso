@@ -3,6 +3,7 @@
 #define USES_ENGINE_FILE
 #define USES_ENGINE_PHYSICS
 #define USES_GAME_CONTENT
+#define USES_ENGINE_GRAPHICS
 
 #pragma warning(disable: 4180) // qualifier applied to function type has no meaning; ignored
 
