@@ -41,8 +41,12 @@ void CContext::Initialize ()
             const CString & filename = CStringUtf16::FromData(tileSetDef.tiles[i].image);
             if (filename.IsNullOrEmpty())
                 break;
+            
+            const CPath path(filename);
+            if (!path.IsFile())
+                break;
 
-            Graphics::IImage * image = Graphics::GetContext()->ImageLoad(filename);
+            Graphics::IImage * image = Graphics::GetContext()->ImageLoad(path);
             ASSERT_MSG(image, "Could not find file \"%s\"", filename.Ptr());
 
             tileSet.images[i] = image;

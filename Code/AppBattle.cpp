@@ -263,7 +263,7 @@ CAppBattle::CAppBattle () :
     m_shot(null),
     m_tank(null)
 {
-    m_ground        = Graphics::GetContext()->ImageLoad("Assets/Art/Backgrounds/ground.png");
+    m_ground        = Graphics::GetContext()->ImageLoad(CPath("./Assets/Art/Backgrounds/ground.png"));
     m_mask          = Graphics::GetContext()->ImageCreate(m_ground->GetDims());
     m_renderTarget  = Graphics::GetContext()->RenderTargetCreate(m_ground->GetDims());
 

@@ -16,8 +16,9 @@ CCellMenuTile::CCellMenuTile (
     m_notify(notify)
 {
     const CString & filename = CStringUtf16::FromData(m_tileset->tiles[0].image);
+    const CPath path(filename);
 
-    m_image = Graphics::GetContext()->ImageLoad(filename);
+    m_image = Graphics::GetContext()->ImageLoad(path);
 
     SetMouseEnable(UserInterface::FLAG_MOUSE_CLICK | UserInterface::FLAG_MOUSE_FOCUS);
 }
