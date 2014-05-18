@@ -4,10 +4,10 @@
     {
         "Transform" :
         {
-            "position" : [0, 0],
+            "position" : [300, 0],
         },
 		
-		"Rigidbody" :
+		"RigidBody" :
         {
             "mass" : 10
         },
@@ -16,22 +16,14 @@
         {
             "type" : "circle",
             "position" : [0, 0],
-            "radius" : 4
+            "size" : 4
         },
 
         "Graphics" :
         {
             "type" : "circle",
             "position" : [0, 0],
-            "radius" : 4
+            "size" : 4
         },
-
-		"Script" :
-		{
-			"Text" : "
-			def OnSpawn ():
-				pass
-			"
-		}
     }
 }

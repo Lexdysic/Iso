@@ -1,0 +1,31 @@
+﻿{
+    "Name" : "Crate",
+    "Components" :
+    {
+        "Transform" :
+        {
+            "position" : [0, 0],
+			"rotation" : 20,
+        },
+		
+		"RigidBody" :
+        {
+            "mass" : 410,
+        },
+
+        "Collider" :
+        {
+            "type"     : "box",
+            "position" : [0, 0],
+            "size"     : [200, 70]
+        },
+
+        "XGraphics" :
+        {
+            "type"     : "image",
+			"filename" : "./Assets/Art/Objects/Box.png",
+            "position" : [0, 0],
+            "size"     : [100, 70]
+        }
+    }
+}
