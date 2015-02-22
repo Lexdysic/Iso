@@ -1,4 +1,5 @@
 
+#include "Systems/Entity/Entity.h"
 #include "CnContent.h"
 
 namespace Content

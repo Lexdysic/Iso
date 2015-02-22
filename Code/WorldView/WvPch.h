@@ -1,7 +1,7 @@
 
-#define USES_GAME_WORLD_VIEW
+#include "Ferrite.h"
 
-#include "GameDeps.h"
+#include "WorldView/WorldView.h"
 
 #include "WvCamera.h"
 #include "WvContext.h"

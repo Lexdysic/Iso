@@ -1,10 +1,8 @@
 
-#define USES_ENGINE_GRAPHICS
-
-#define USES_GAME_CONTENT
-#define USES_GAME_MAP
-
-#include "GameDeps.h"
+#include "Ferrite.h"
+#include "Systems/Graphics/Graphics.h"
+#include "Content/Content.h"
+#include "Map/Map.h"
 
 #include "MapTileSet.h"
 #include "MapCell.h"

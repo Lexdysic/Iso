@@ -1,6 +1,5 @@
 
-#define USES_GAME_TABLE
-
-#include "GameDeps.h"
+#include "Ferrite.h"
+#include "GameTable/GameTable.h"
 
 #include "GtInt.h"

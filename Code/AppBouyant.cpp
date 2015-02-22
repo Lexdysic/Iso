@@ -33,7 +33,7 @@ float32 OverlappedArea (const Circle & circle, const Aabb2 & box, float step = 1
         if (!intersection.IsValid())
             continue;
 
-        total += intersection.b - intersection.a;
+        total += Length(intersection);
     }
 
     const float area = total * step;
@@ -91,9 +91,13 @@ CAppBouyant::CAppBouyant ()
         auto * transform = m_entityBox->Get<CTransformComponent2>();
         transform->SetPosition({500, 200});
     }
-
+    m_bullet = Content::GetContext()->CreateEntity("Crate");
+    {
+        auto * transform = m_bullet->Get<CTransformComponent2>();
+        transform->SetPosition({400, 100});
+    }
     
-    m_bullet = Content::GetContext()->CreateEntity("Bullet");
+    //m_bullet = Content::GetContext()->CreateEntity("Bullet");
 }
 
 //=============================================================================
@@ -129,6 +133,7 @@ void CAppBouyant::OnPhysicsPreTick ()
 
     const Polygon2 waterPoly = m_water.GetPoints();
 
+    //if (false)
     {
         using namespace Physics;
 
@@ -141,7 +146,7 @@ void CAppBouyant::OnPhysicsPreTick ()
         m_bouyantPoly = Polygon2::Clip(poly, waterPoly);
 
         float32 displacement;
-        m_bouyantPoly.ComputeInfo(&m_bouyantCentroid, &displacement);
+        m_bouyantPoly.ComputeCentroidInfo(&m_bouyantCentroid, &displacement);
 
         m_bouyantForce = -displacement * WATER_DENSITY * Physics::GetContext()->GetGravity();
         rigidbody->AddForce(m_bouyantForce, m_bouyantCentroid);

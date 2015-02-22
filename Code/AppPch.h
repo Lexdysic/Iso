@@ -1,23 +1,21 @@
-
-#include <deque>
+#include <Windows.h>
 #include <numeric>
 
-#define USES_ENGINE_GRAPHICS
-#define USES_ENGINE_USER_INTERFACE
-#define USES_ENGINE_TIME
-#define USES_ENGINE_PATHING
-#define USES_ENGINE_GEOMETRY
-#define USES_ENGINE_ENTITY
-#define USES_ENGINE_PHYSICS
-#define USES_ENGINE_WINDOW
-#define USES_ENGINE_THREAD
+#include "Ferrite.h"
+#include "Basics/Time/Time.h"
+#include "Basics/Geometry/Geometry.h"
+#include "Basics/Thread/Thread.h"
+#include "Systems/Entity/Entity.h"
+#include "Systems/Physics/Physics.h"
+#include "Systems/Graphics/Graphics.h"
+#include "Systems/Pathing/Pathing.h"
+#include "Systems/UserInterface/UserInterface.h"
+#include "Systems/Window/Window.h"
 
-#define USES_GAME_WIDGETS
-#define USES_GAME_MAP
-#define USES_GAME_WORLD_VIEW
-#define USES_GAME_CONTENT
-
-#include "GameDeps.h"
+#include "Widgets/Widgets.h"
+#include "Map/Map.h"
+#include "WorldView/WorldView.h"
+#include "Content/Content.h"
 
 #include "AppFrameTimer.h"
 #include "Application.h"

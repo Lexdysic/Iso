@@ -1,1 +1,1 @@
-premake4 vs2013
+genie vs2013

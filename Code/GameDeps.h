@@ -25,8 +25,6 @@
 //
 //=============================================================================
 
-#include "EngineDeps.h"
-
 #ifdef USES_GAME_WIDGETS
 #   include "Widgets\Widgets.h"
 #endif

@@ -7,17 +7,18 @@ namespace Graphics
 
 //=============================================================================
 //
-// 
+// CResourceInputComponent
 //
 //=============================================================================
 
 class CResourceInputComponent :
     public CComponent,
-    public TRefCounted<CResourceInputComponent>
+    public IRefCounted<CResourceInputComponent>
 {
+    REFCOUNTED_ADAPTER(CResourceInputComponent)
 public:
 
-    typedef StrongPtr<CResourceInputComponent> Ptr;
+    typedef TStrongPtr<CResourceInputComponent> Ptr;
     typedef TWeakPtr<CResourceInputComponent> Ref;
 
     void AddTerminal (Token name);
@@ -40,17 +41,18 @@ private:
 
 //=============================================================================
 //
-// 
+// CResourceOutputComponent
 //
 //=============================================================================
 
 class CResourceOutputComponent :
     public CComponent,
-    public TRefCounted<CResourceOutputComponent>
+    public IRefCounted<CResourceOutputComponent>
 {
+    REFCOUNTED_ADAPTER(CResourceOutputComponent)
 public:
 
-    typedef StrongPtr<CResourceOutputComponent> Ptr;
+    typedef TStrongPtr<CResourceOutputComponent> Ptr;
     typedef TWeakPtr<CResourceOutputComponent> Ref;
     
     void AddTerminal (Token name);
@@ -79,8 +81,9 @@ private:
 
 class CResourceLineComponent :
     public Graphics::CRenderComponent,
-    public TRefCounted<CResourceLineComponent>
+    public IRefCounted<CResourceLineComponent>
 {
+    REFCOUNTED_ADAPTER(CResourceLineComponent)
 public:
 
     CResourceLineComponent (const Color & color);
@@ -92,7 +95,7 @@ public:
         Token                      toName = Token::Null
     );
 
-    typedef StrongPtr<CResourceLineComponent> Ptr;
+    typedef TStrongPtr<CResourceLineComponent> Ptr;
     typedef TWeakPtr<CResourceLineComponent> Ref;
 
 public: // CRenderComponent

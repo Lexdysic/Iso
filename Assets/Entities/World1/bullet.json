@@ -4,7 +4,7 @@
     {
         "Transform" :
         {
-            "position" : [300, 0]
+            "position" : [300, 0],
         },
 		
 		"RigidBody" :
@@ -24,6 +24,6 @@
             "type" : "circle",
             "position" : [0, 0],
             "size" : 4
-        }
+        },
     }
 }

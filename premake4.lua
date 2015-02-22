@@ -1,3 +1,7 @@
+
+DX_SDK_PATH = string.gsub(os.getenv("DXSDK_DIR"), "\\", "/")
+
+
 solution "Iso"
     language "C++"
     flags { "StaticRuntime" }
@@ -5,10 +9,16 @@ solution "Iso"
     location "."
     debugdir "."
     includedirs {
-        "../Engine/Code/",
-        "./Code/"
+        "../Ferrite/Code/",
+        "./Code/",
+        path.join(DX_SDK_PATH, "Include")
+    }
+    libdirs {
+        path.join(DX_SDK_PATH, "Lib", "x86")
     }
     defines { "UNICODE", "_UNICODE" }
+    
+    startproject "Game"
     
     
     
@@ -35,7 +45,7 @@ solution "Iso"
         
         location "./Build/Projects/"
         targetdir "./Bin/"
-        
+            
         files {
             "./Code/**.h",
             "./Code/**.cpp",
@@ -44,34 +54,13 @@ solution "Iso"
         vpaths {
             ["*"] = "./Code/**"
         }
-        
+
         links {
-            "Engine"
+            "Ferrite"
         }
     
     
     
     -- ENGINE -------------------------------
-    project "Engine"
-        kind "StaticLib"
-        
-        location "./Build/Projects/"
-        targetdir "./Bin/"
-        
-        files {
-            "../Engine/Code/**.h",
-            "../Engine/Code/**.cpp",
-            "../Engine/Code/**.inl",
-        }
-        vpaths {
-            ["*"] = { "../Engine/Code/**" },
-        }
-        excludes {
-            "../Engine/Code/Object/**",
-            "../Engine/Code/External/**",
-            "../Engine/Code/Hash/**",
-        }
 
-    -- TODO: need to figure out the error this causes
-    -- [string "premake = { }..."]:74: attempt to concatenate local 'fname' (a table value)
-    --include { "../Engine/" }
+    include "../Ferrite"
