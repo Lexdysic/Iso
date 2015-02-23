@@ -1,6 +1,7 @@
 
 #include "Ferrite.h"
-#include "Systems/Graphics/Graphics.h"
+#include "Systems/Graphics.h"
+
 #include "Content/Content.h"
 #include "Map/Map.h"
 

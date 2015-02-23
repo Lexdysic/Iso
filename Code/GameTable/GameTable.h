@@ -1,4 +1,4 @@
-#include "Utilities/Notifier/Notifier.h"
+#include "Utilities/Notifier.h"
 
 namespace Table
 {
